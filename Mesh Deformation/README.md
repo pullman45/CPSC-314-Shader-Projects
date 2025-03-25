@@ -1,21 +1,9 @@
-Georgy Zhuravlev
-81959512
-georgy03
+# First feature: Sphere Trail
+Implemented a dynamic sphere-trail effect by first rotating the sphere 90 degrees across its local X-axis. I then applied the camera's rotation to ensure the bottom of the sphere always faces the camera. To create the trail, I projected the sphere's velocity onto the local xz-plane to avoid artifacts caused by movement along the camera's local z-axis. For each pixel with a positive y-coordinate in object space, I calculated its displacement based on the projected velocity. This is akin to taking horizontal slices of the sphere and translating them along a shared axis. The further a slice is from the center (i.e., the larger its local y-coordinate), the more it is displaced horizontally. The top layer of the sphere is displaced by an amount equal to the sphereTrail uniform, resulting in a smooth, continuous trail effect as the sphere moves.
 
-# First feature
-This is just three lines of code in the raymarching shader that makes the hat go up and down.
+To activate the sphere trail, press the T key, then move the sphere using the WASD keys. This will trigger the trail effect and allow you to control the sphere while observing the trail in action.
 
-# Second feature
-This is a sphere-trail feature. Specifically, when the sphere moves, the vertex shader deforms the sphere
-so that all the vertices on the backside of the sphere get shifted to make the illusion of a trail
-following the sphere.
+# Second Feature: Sphere-to-Plane Mapping
+Mapped each vertex of a sphere to a point on a plane by focusing on the horizontal angle (theta) relative to the meridian. The horizontal angle θ (theta) from the meridian was used to compute the x-coordinate of each vertex, scaled by a horizontal factor (h). The final mapped position on the plane was calculated as <hθ, ky, 0>, where k is the vertical scale of the map.
 
-# Third feature
-This feature maps each point on the sphere to a point on a plane. First I translate each
-vertex of the sphere outward to make a cylinder, then I do a conversion from
-cartesian coordinates to cylindrical coordinates to get the angle theta of each vertex
-from the meridian. In this case the meridian is defined as the set of points in object
-space that satisfy <0, y, 1>, where y is any real number.
-Using this angle of theta, we set x = h*theta, where h is the horizontal scale of the map.
-So, after projecting onto the local xy-plane, the resulting position of the vertex in local 
-space is < h*theta, ky, 0 >, where k is the vertical scale of the map.
+To activate the sphere-to-plane mapping mode, press the M key. Once the mode is enabled, use the arrow keys to move the paddle on the newly created canvas, allowing you to interact with the mapped sphere.
